@@ -14,6 +14,12 @@ return new class extends Migration
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
             $table->text('message');
+            /*
+             * 0 -> pending
+             * 1 -> published
+             * 2 -> rad shode
+             */
+            $table->unsignedTinyInteger('status')->default(0);
             $table->foreignId('creator_id')->constrained('users');
             $table->timestamps();
         });

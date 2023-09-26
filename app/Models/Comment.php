@@ -11,7 +11,11 @@ class Comment extends Model
 
     protected $fillable = [
         'message',
-        'creator_id'
+        'creator_id',
+        'status'
+    ];
+    protected $attributes=[
+        'status'=>0
     ];
     protected static function boot()
     {
@@ -26,12 +30,10 @@ class Comment extends Model
         });
         parent::boot();
     }
-
     public function creator()
     {
         return $this->belongsTo(User::class);
     }
-
     public function actions()
     {
         return $this->hasMany(Action::class);
