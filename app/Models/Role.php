@@ -20,31 +20,18 @@ protected static function boot()
 {
     self::creating(function ($role){
         $role->creator_id=Auth::id();
-
     });
     self::updating(function ($role){
         $role->creator_id=Auth::id();
     });
     self::created(function ($role){
-        Action::create([
-            'name'=>'create',
-            'user_id'=>Auth::id(),
-            'role_id'=>$role->id,
-        ]);
+        Action::create(['role_id'=>$role->id,'name'=>\userActions::Add->value]);
     });
     self::updated(function ($role){
-        Action::create([
-            'name'=>'update',
-            'user_id'=>Auth::id(),
-            'role_id'=>$role->id,
-        ]);
+        Action::create(['role_id'=>$role->id,'name'=>\userActions::Edit->value]);
     });
     self::deleted(function ($role){
-        Action::create([
-            'name'=>'delete',
-            'user_id'=>Auth::id(),
-            'role_id'=>$role->id,
-        ]);
+        Action::create(['role_id'=>$role->id,'name'=>\userActions::Delete->value]);
     });
     parent::boot();
 }

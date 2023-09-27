@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Permission extends Model
 {
@@ -15,6 +16,25 @@ class Permission extends Model
         'creator_id'=>2,
     ];
 
+     protected static function boot()
+    {
+        self::creating(function ($permission){
+            $permission->creator_id=Auth::id();
+        });
+        self::updating(function ($permission){
+            $permission->creator_id=Auth::id();
+        });
+        self::created(function ($permission){
+            Action::create(['permission_id'=>$permission->id,'name'=>\userActions::Add->value]);
+        });
+        self::updated(function ($permission){
+            Action::create(['permission_id'=>$permission->id,'name'=>\userActions::Edit->value]);
+        });
+        self::deleted(function ($permission){
+            Action::create(['permission_id'=>$permission->id,'name'=>\userActions::Delete->value]);
+        });
+        parent::boot();
+    }
 
     public function creator(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {

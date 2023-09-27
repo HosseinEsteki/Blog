@@ -1,12 +1,5 @@
 <?php
-enum userActions: string
-{
-    case Add="Add";
-    case Edit="Edit";
-    case Delete="Delete";
-    case Login="Login";
-    case Register="Register";
-}
+require_once 'enums.php';
 function message()
 {
     return new \App\Message();

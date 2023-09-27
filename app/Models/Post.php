@@ -21,6 +21,9 @@ class Post extends Model
     ];
     protected static function boot()
     {
+        self::creating(function ($item){
+            $item->creator_id=\Auth::id();
+        });
         self::created(function ($post){
             Action::create(['post_id'=>$post->id,'name'=>\userActions::Add->value]);
         });

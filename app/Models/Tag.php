@@ -14,7 +14,9 @@ class Tag extends Model
         'creator_id'
     ];
     protected static function boot()
-    {
+    {self::creating(function ($item){
+        $item->creator_id=\Auth::id();
+    });
         self::created(function ($tag){
             Action::create(['tag_id'=>$tag->id,'name'=>\userActions::Add->value]);
         });

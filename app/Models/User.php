@@ -28,6 +28,10 @@ class User extends Authenticatable
     public function actions(){
         return $this->hasMany(Action::class);
     }
+    public function role(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Role::class);
+    }
 
     /**
      * The attributes that are mass assignable.

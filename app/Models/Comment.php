@@ -19,6 +19,9 @@ class Comment extends Model
     ];
     protected static function boot()
     {
+        self::creating(function ($item){
+            $item->creator_id=\Auth::id();
+        });
         self::created(function ($comment){
             Action::create(['comment_id'=>$comment->id,'name'=>\userActions::Add->value]);
         });
