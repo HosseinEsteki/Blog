@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ApiRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
@@ -23,7 +24,17 @@ class ApiCategoryController extends Controller
      */
     public function create(Request $request)
     {
-        $this->authorize(\userPermission::CreateCategory->value);
+//        $this->authorize(\userPermission::CreateCategory->value);
+        $validator = \Validator::make($request->all(), [
+            'name'=>'required|unique:categories',
+            'slug'=>'nullable|unique:categories'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect('/login')
+                ->withErrors($validator)
+                ->withInput();
+        }
         $request->validate([
             'name'=>'required|unique:categories',
             'slug'=>'nullable|unique:categories'
