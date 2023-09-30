@@ -9,5 +9,9 @@
 
 ## راه و روش کار
 <p>
- پس از اینکه برنامه را با دستور <i>git clone https://github.com/HosseinEsteki/Blog.git</i> دانلود کردید، وارد پوشه دانلود شده شده و از دستور <i>composer install</i> استفاده کنید
+ پس از اینکه برنامه را با دستور <i>git clone https://github.com/HosseinEsteki/Blog.git</i> دانلود کردید، وارد پوشه دانلود شده شده و از دستور <i>composer install</i> استفاده کنید <br>
+وارد مسیر زیر شده و کامنت ها را بردارید.
+<code>
+    app>Providers>AuthServiceProvider
+</code>
 </p>
