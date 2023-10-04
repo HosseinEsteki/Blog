@@ -17,17 +17,15 @@ class Category extends Model
     protected $attributes = [
     ];
 
+
     public function setSlugAttribute($value)
     {
-        if ($value == null) {
-            $this->attributes['slug'] = Str::slug($this->name);
-        }
+        $this->attributes['slug'] = Str::replace(' ','-',$value);
     }
 
     protected static function boot()
     {
         self::creating(function ($item) {
-
             $item->creator_id = \Auth::id();
         });
         self::created(function ($category) {

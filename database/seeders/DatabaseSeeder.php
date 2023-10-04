@@ -23,15 +23,15 @@ class DatabaseSeeder extends Seeder
 //
 //        DB::statement('SET FOREIGN_KEY_CHECKS=1');
 
-        \App\Models\User::factory(10)->create();
-        $roles = [['name' => 'کاربر عادی'], ['name' => 'ادمین'], ['name' => 'کاربر برنز'], ['name' => 'کاربر نقره'], ['name' => 'کاربر طلا']];
-        foreach ($roles as $role)
-            Role::create($role);
+\App\Models\User::factory(10)->create();
+$roles = \userRole::cases();
+foreach ($roles as $role)
+    Role::create(['name'=>$role->value]);
 
-        $permissions=\userPermission::cases();
-        foreach ($permissions as $permission)
-        {
-            Permission::create(['name'=> $permission->value]);
-        }
+$permissions=\userPermission::cases();
+foreach ($permissions as $permission)
+{
+    Permission::create(['name'=> $permission->value]);
+}
     }
 }

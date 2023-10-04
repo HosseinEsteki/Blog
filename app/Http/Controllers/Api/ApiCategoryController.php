@@ -7,16 +7,14 @@ use App\Http\Requests\ApiRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
-class ApiCategoryController extends Controller
+class ApiCategoryController extends ApiController
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $this->authorize(\userPermission::IndexCategory->value);
-        $categories = Category::all()->toJson();
-        return $categories;
+
     }
 
     /**
@@ -24,28 +22,7 @@ class ApiCategoryController extends Controller
      */
     public function create(Request $request)
     {
-//        $this->authorize(\userPermission::CreateCategory->value);
-        $validator = \Validator::make($request->all(), [
-            'name'=>'required|unique:categories',
-            'slug'=>'nullable|unique:categories'
-        ]);
 
-        if ($validator->fails()) {
-            return redirect('/login')
-                ->withErrors($validator)
-                ->withInput();
-        }
-        $request->validate([
-            'name'=>'required|unique:categories',
-            'slug'=>'nullable|unique:categories'
-        ]);
-
-//        $this->validate($request,[
-//            'name'=>'required|unique:categories',
-//            'slug'=>'nullable|unique:categories'
-//        ]);
-        $category= Category::create($request->only(['name','slug']));
-        return $category->toJson();
     }
 
     /**
@@ -53,24 +30,22 @@ class ApiCategoryController extends Controller
      */
     public function show(Category $category)
     {
-        $this->authorize(\userPermission::ShowCategory->value);
-        return $category->toJson();
+
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Request $request)
+    public function edit(Category $category,Request $request)
     {
-        $this->authorize(\userPermission::EditCategory->value);
-        $requestCategory=$request->category;
+
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Category $category)
     {
-        //
+
     }
 }
