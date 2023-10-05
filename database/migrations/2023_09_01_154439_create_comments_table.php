@@ -17,10 +17,11 @@ return new class extends Migration
             /*
              * 0 -> pending
              * 1 -> published
-             * 2 -> rad shode
+             * 2 -> reject
              */
             $table->unsignedTinyInteger('status')->default(0);
             $table->foreignId('creator_id')->constrained('users');
+            $table->foreignId('post_id')->constrained('posts');
             $table->timestamps();
         });
     }
