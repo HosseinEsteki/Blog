@@ -33,7 +33,7 @@ enum userPermission:string{
     case DestroyTag=        "حذف برچسب";
     case ShowTag=           "نمایش برچسب";
     case IndexTag=          "فهرست برچسب‌ها";
-    const IndexAction =     "فهرست فعالیت‌ها";
+    case IndexAction =     "فهرست فعالیت‌ها";
 }
 enum userRole:string{
     case Admin="ادمین";
