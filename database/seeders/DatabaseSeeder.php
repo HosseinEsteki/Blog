@@ -1,37 +1,42 @@
 <?php
+
 namespace Database\Seeders;
 
+// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Permission;
 use App\Models\Role;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class DatabaseSeeder extends Seeder
 {
     /**
      * Seed the application's database.
-     *
-     * @return void
      */
-    public function run()
+    public function run(): void
     {
-//        DB::statement('SET FOREIGN_KEY_CHECKS=0');
-//
-//        DB::table('users')->truncate();
-//
-//        $this->call([ UsersTableSeeder::class]);
-//
-//        DB::statement('SET FOREIGN_KEY_CHECKS=1');
+//        $this->truncate();
+        $this->call([
+            UsersTableSeeder::class,
+            RolesTableSeeder::class,
+            PermissionsTableSeeder::class,
+            RoleUserTableSeeder::class,
+            RolePermissionTableSeeder::class,
+        ]);
 
-\App\Models\User::factory(10)->create();
-$roles = \userRole::cases();
-foreach ($roles as $role)
-    Role::create(['name'=>$role->value]);
-
-$permissions=\userPermission::cases();
-foreach ($permissions as $permission)
-{
-    Permission::create(['name'=> $permission->value]);
-}
+    }
+    function truncate(){
+        Schema::disableForeignKeyConstraints();
+        $tableNames = Schema::getConnection()->getDoctrineSchemaManager()->listTableNames();
+        foreach ($tableNames as $name) {
+            //if you don't want to truncate migrations
+            if ($name == 'migrations') {
+                continue;
+            }
+            DB::table($name)->truncate();
+        }
+        Schema::enableForeignKeyConstraints();
     }
 }
