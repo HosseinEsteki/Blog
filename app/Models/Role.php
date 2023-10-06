@@ -25,13 +25,13 @@ protected static function boot()
         $role->creator_id=Auth::id();
     });
     self::created(function ($role){
-        Action::create(['role_id'=>$role->id,'name'=>\userActions::Add->value]);
+        Action::create(['role_id'=>$role->id,'name'=>\userActions::Add->name]);
     });
     self::updated(function ($role){
-        Action::create(['role_id'=>$role->id,'name'=>\userActions::Edit->value]);
+        Action::create(['role_id'=>$role->id,'name'=>\userActions::Edit->name]);
     });
     self::deleted(function ($role){
-        Action::create(['role_id'=>$role->id,'name'=>\userActions::Delete->value]);
+        Action::create(['role_id'=>$role->id,'name'=>\userActions::Delete->name]);
     });
     parent::boot();
 }

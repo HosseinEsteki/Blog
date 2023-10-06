@@ -18,13 +18,13 @@ class Tag extends Model
         $item->creator_id=\Auth::id();
     });
         self::created(function ($tag){
-            Action::create(['tag_id'=>$tag->id,'name'=>\userActions::Add->value]);
+            Action::create(['tag_id'=>$tag->id,'name'=>\userActions::Add->name]);
         });
         self::updated(function ($tag){
-            Action::create(['tag_id'=>$tag->id,'name'=>\userActions::Edit->value]);
+            Action::create(['tag_id'=>$tag->id,'name'=>\userActions::Edit->name]);
         });
         self::deleted(function ($tag){
-            Action::create(['tag_id'=>$tag->id,'name'=>\userActions::Delete->value]);
+            Action::create(['tag_id'=>$tag->id,'name'=>\userActions::Delete->name]);
         });
         parent::boot();
     }

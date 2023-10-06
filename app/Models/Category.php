@@ -12,6 +12,7 @@ class Category extends Model
 
     protected $fillable = [
         'name',
+        'slug',
         'creator_id',
     ];
     protected $attributes = [
@@ -29,13 +30,13 @@ class Category extends Model
             $item->creator_id = \Auth::id();
         });
         self::created(function ($category) {
-            Action::create(['category_id' => $category->id, 'name' => \userActions::Add->value]);
+            Action::create(['category_id' => $category->id, 'name' => \userActions::Add->name]);
         });
         self::updated(function ($category) {
-            Action::create(['category_id' => $category->id, 'name' => \userActions::Edit->value]);
+            Action::create(['category_id' => $category->id, 'name' => \userActions::Edit->name]);
         });
         self::deleted(function ($category) {
-            Action::create(['category_id' => $category->id, 'name' => \userActions::Delete->value]);
+            Action::create(['category_id' => $category->id, 'name' => \userActions::Delete->name]);
         });
         parent::boot();
     }

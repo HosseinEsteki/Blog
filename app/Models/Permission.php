@@ -25,13 +25,13 @@ class Permission extends Model
             $permission->creator_id=Auth::id();
         });
         self::created(function ($permission){
-            Action::create(['permission_id'=>$permission->id,'name'=>\userActions::Add->value]);
+            Action::create(['permission_id'=>$permission->id,'name'=>\userActions::Add->name]);
         });
         self::updated(function ($permission){
-            Action::create(['permission_id'=>$permission->id,'name'=>\userActions::Edit->value]);
+            Action::create(['permission_id'=>$permission->id,'name'=>\userActions::Edit->name]);
         });
         self::deleted(function ($permission){
-            Action::create(['permission_id'=>$permission->id,'name'=>\userActions::Delete->value]);
+            Action::create(['permission_id'=>$permission->id,'name'=>\userActions::Delete->name]);
         });
         parent::boot();
     }

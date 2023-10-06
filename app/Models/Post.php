@@ -25,13 +25,13 @@ class Post extends Model
             $item->creator_id=\Auth::id();
         });
         self::created(function ($post){
-            Action::create(['post_id'=>$post->id,'name'=>\userActions::Add->value]);
+            Action::create(['post_id'=>$post->id,'name'=>\userActions::Add->name]);
         });
         self::updated(function ($post){
-            Action::create(['post_id'=>$post->id,'name'=>\userActions::Edit->value]);
+            Action::create(['post_id'=>$post->id,'name'=>\userActions::Edit->name]);
         });
         self::deleted(function ($post){
-            Action::create(['post_id'=>$post->id,'name'=>\userActions::Delete->value]);
+            Action::create(['post_id'=>$post->id,'name'=>\userActions::Delete->name]);
         });
         parent::boot();
     }

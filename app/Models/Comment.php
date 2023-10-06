@@ -24,13 +24,13 @@ class Comment extends Model
             $item->creator_id=\Auth::id();
         });
         self::created(function ($comment){
-            Action::create(['comment_id'=>$comment->id,'name'=>\userActions::Add->value]);
+            Action::create(['comment_id'=>$comment->id,'name'=>\userActions::Add->name]);
         });
         self::updated(function ($comment){
-            Action::create(['comment_id'=>$comment->id,'name'=>\userActions::Edit->value]);
+            Action::create(['comment_id'=>$comment->id,'name'=>\userActions::Edit->name]);
         });
         self::deleted(function ($comment){
-            Action::create(['comment_id'=>$comment->id,'name'=>\userActions::Delete->value]);
+            Action::create(['comment_id'=>$comment->id,'name'=>\userActions::Delete->name]);
         });
         parent::boot();
     }
