@@ -3,12 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Collections\PostCollection;
 use App\Http\Traits\HasApi;
-use App\Models\Post;
+use App\Models\Permission;
 use Illuminate\Http\Request;
 
-class PostController extends Controller
+class PermissionController extends Controller
 {
     use HasApi;
     /**
@@ -16,8 +15,7 @@ class PostController extends Controller
      */
     public function index()
     {
-
-        return new PostCollection(Post::all());
+        //
     }
 
     /**
@@ -31,7 +29,7 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Post $post)
+    public function show(Permission $permission)
     {
         //
     }
@@ -39,7 +37,7 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Post $post)
+    public function update(Request $request, Permission $permission)
     {
         //
     }
@@ -47,7 +45,7 @@ class PostController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Post $post)
+    public function destroy(Permission $permission)
     {
         //
     }

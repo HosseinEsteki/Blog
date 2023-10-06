@@ -15,14 +15,20 @@ use Illuminate\Support\Facades\Route;
 */
 
 
+
 Route::middleware('auth:sanctum')->group(function (){
-    Route::get('/user', function (Request $request) {
-        return $request->user();
+
+    Route::get('user',function (){
+        return \request()->user();
     });
-    Route::get('categories',[\App\Http\Controllers\Api\ApiCategoryController::class,'index']);
-    Route::get('categories/create',[\App\Http\Controllers\Api\ApiCategoryController::class,'create']);
+
+    Route::apiResource('categories',\App\Http\Controllers\Api\CategoryController::class);
+    Route::apiResource('comments',\App\Http\Controllers\Api\CommentController::class);
+    Route::apiResource('posts',\App\Http\Controllers\Api\PostController::class);
+    Route::apiResource('tags',\App\Http\Controllers\Api\TagController::class);
+    Route::get('actions',[\App\Http\Controllers\Api\ActionController::class,'index']);
+
 });
-// 1|laravel_sanctum_TF0Hh56QxbwLhwYE7GYgDSBTJnhoqSd2qJqFA86Kec08bc5e
-Route::get('get-user-token',function (){
+Route::get('get-api-token',function (){
     return \App\Models\User::find(1)->createToken("myApi")->plainTextToken;
 });

@@ -3,21 +3,20 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Collections\PostCollection;
 use App\Http\Traits\HasApi;
-use App\Models\Post;
+use App\Models\Role;
 use Illuminate\Http\Request;
 
-class PostController extends Controller
+class RoleController extends Controller
 {
     use HasApi;
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-
-        return new PostCollection(Post::all());
+        //
     }
 
     /**
@@ -31,7 +30,7 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Post $post)
+    public function show(Role $role)
     {
         //
     }
@@ -39,7 +38,7 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Post $post)
+    public function update(Request $request, Role $role)
     {
         //
     }
@@ -47,7 +46,7 @@ class PostController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Post $post)
+    public function destroy(Role $role)
     {
         //
     }

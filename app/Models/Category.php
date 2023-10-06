@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use function App\slug;
 
 class Category extends Model
 {
@@ -21,12 +22,14 @@ class Category extends Model
 
     public function setSlugAttribute($value)
     {
-        $this->attributes['slug'] = Str::replace(' ','-',$value);
+        $this->attributes['slug'] = slug($value);
     }
 
     protected static function boot()
     {
         self::creating(function ($item) {
+            if($item->slug==null)
+                $item->slug=$item->name;
             $item->creator_id = \Auth::id();
         });
         self::created(function ($category) {
@@ -35,7 +38,7 @@ class Category extends Model
         self::updated(function ($category) {
             Action::create(['category_id' => $category->id, 'name' => \userActions::Edit->name]);
         });
-        self::deleted(function ($category) {
+        self::deleting(function ($category) {
             Action::create(['category_id' => $category->id, 'name' => \userActions::Delete->name]);
         });
         parent::boot();
