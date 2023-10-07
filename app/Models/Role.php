@@ -16,25 +16,23 @@ class Role extends Model
     protected $attributes=[
         'creator_id'=>2,
     ];
-protected static function boot()
-{
-    self::creating(function ($role){
-        $role->creator_id=Auth::id();
-    });
-    self::updating(function ($role){
-        $role->creator_id=Auth::id();
-    });
-    self::created(function ($role){
-        Action::create(['role_id'=>$role->id,'name'=>\userActions::Add->name]);
-    });
-    self::updated(function ($role){
-        Action::create(['role_id'=>$role->id,'name'=>\userActions::Edit->name]);
-    });
-    self::deleted(function ($role){
-        Action::create(['role_id'=>$role->id,'name'=>\userActions::Delete->name]);
-    });
-    parent::boot();
-}
+    protected static function boot()
+    {
+        self::creating(function ($item) {
+            if($item->creator_id==null)
+                $item->creator_id = \Auth::id();
+        });
+        self::created(function ($role) {
+            Action::create(['user'=>$role->creator->email,'model'=>\models::Role->name,'model_name' => $role->name, 'action' => \userActions::Add->name]);
+        });
+        self::updated(function ($role) {
+            Action::create(['user'=>$role->creator->email,'model'=>\models::Role->name,'model_name' => $role->name, 'action' => \userActions::Edit->name]);
+        });
+        self::deleting(function ($role) {
+            Action::create(['user'=>$role->creator->email,'model'=>\models::Role->name,'model_name' => $role->name, 'action' => \userActions::Delete->name]);
+        });
+        parent::boot();
+    }
 
 
     public function creator(): \Illuminate\Database\Eloquent\Relations\BelongsTo

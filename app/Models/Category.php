@@ -30,16 +30,17 @@ class Category extends Model
         self::creating(function ($item) {
             if($item->slug==null)
                 $item->slug=$item->name;
-            $item->creator_id = \Auth::id();
+            if($item->creator_id==null)
+                $item->creator_id = \Auth::id();
         });
         self::created(function ($category) {
-            Action::create(['category_id' => $category->id, 'name' => \userActions::Add->name]);
+            Action::create(['user'=>$category->creator->email,'model'=>\models::Category->name,'model_name' => $category->name, 'action' => \userActions::Add->name]);
         });
         self::updated(function ($category) {
-            Action::create(['category_id' => $category->id, 'name' => \userActions::Edit->name]);
+            Action::create(['user'=>$category->creator->email,'model'=>\models::Category->name,'model_name' => $category->name, 'action' => \userActions::Edit->name]);
         });
         self::deleting(function ($category) {
-            Action::create(['category_id' => $category->id, 'name' => \userActions::Delete->name]);
+            Action::create(['user'=>$category->creator->email,'model'=>\models::Category->name,'model_name' => $category->name, 'action' => \userActions::Delete->name]);
         });
         parent::boot();
     }
@@ -47,11 +48,6 @@ class Category extends Model
     public function creator()
     {
         return $this->belongsTo(User::class);
-    }
-
-    public function actions()
-    {
-        return $this->hasMany(Action::class);
     }
 
     public function posts()

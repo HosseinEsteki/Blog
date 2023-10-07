@@ -11,6 +11,7 @@ class Comment extends Model
 
     protected $fillable = [
         'message',
+        'title',
         'post_id',
         'creator_id',
         'status'
@@ -20,26 +21,23 @@ class Comment extends Model
     ];
     protected static function boot()
     {
-        self::creating(function ($item){
-            $item->creator_id=\Auth::id();
+        self::creating(function ($item) {
+            if($item->creator_id==null)
+                $item->creator_id = \Auth::id();
         });
-        self::created(function ($comment){
-            Action::create(['comment_id'=>$comment->id,'name'=>\userActions::Add->name]);
+        self::created(function ($comment) {
+            Action::create(['user'=>$comment->creator->email,'model'=>\models::Comment->name,'model_name' => $comment->creator->email, 'action' => \userActions::Add->name]);
         });
-        self::updated(function ($comment){
-            Action::create(['comment_id'=>$comment->id,'name'=>\userActions::Edit->name]);
+        self::updated(function ($comment) {
+            Action::create(['user'=>$comment->creator->email,'model'=>\models::Comment->name,'model_name' => $comment->creator->email, 'action' => \userActions::Edit->name]);
         });
-        self::deleted(function ($comment){
-            Action::create(['comment_id'=>$comment->id,'name'=>\userActions::Delete->name]);
+        self::deleting(function ($comment) {
+            Action::create(['user'=>$comment->creator->email,'model'=>\models::Comment->name,'model_name' => $comment->creator->email, 'action' => \userActions::Delete->name]);
         });
         parent::boot();
     }
     public function creator()
     {
         return $this->belongsTo(User::class);
-    }
-    public function actions()
-    {
-        return $this->hasMany(Action::class);
     }
 }

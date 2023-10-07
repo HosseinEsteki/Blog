@@ -12,26 +12,21 @@ class Permission extends Model
     protected $fillable=[
         'name'
     ];
-    protected $attributes=[
-        'creator_id'=>2,
-    ];
 
-     protected static function boot()
+    protected static function boot()
     {
-        self::creating(function ($permission){
-            $permission->creator_id=Auth::id();
+        self::creating(function ($item) {
+            if($item->creator_id==null)
+                $item->creator_id = \Auth::id();
         });
-        self::updating(function ($permission){
-            $permission->creator_id=Auth::id();
+        self::created(function ($permission) {
+            Action::create(['user'=>$permission->creator->email,'model'=>\models::Permission->name,'model_name' => $permission->name, 'action' => \userActions::Add->name]);
         });
-        self::created(function ($permission){
-            Action::create(['permission_id'=>$permission->id,'name'=>\userActions::Add->name]);
+        self::updated(function ($permission) {
+            Action::create(['user'=>$permission->creator->email,'model'=>\models::Permission->name,'model_name' => $permission->name, 'action' => \userActions::Edit->name]);
         });
-        self::updated(function ($permission){
-            Action::create(['permission_id'=>$permission->id,'name'=>\userActions::Edit->name]);
-        });
-        self::deleted(function ($permission){
-            Action::create(['permission_id'=>$permission->id,'name'=>\userActions::Delete->name]);
+        self::deleting(function ($permission) {
+            Action::create(['user'=>$permission->creator->email,'model'=>\models::Permission->name,'model_name' => $permission->name, 'action' => \userActions::Delete->name]);
         });
         parent::boot();
     }

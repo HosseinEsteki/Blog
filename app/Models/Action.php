@@ -10,20 +10,19 @@ class Action extends Model
 {
     use HasFactory;
     protected $fillable=[
-        'user_id',
-        'comment_id',
-        'category_id',
-        'post_id',
-        'tag_id',
-        'name'
+        'user',
+        'model',
+        'model_name',
+        'action'
     ];
     protected static function boot()
     {
         self::creating(function ($action){
-            $action->user_id=\Auth::id();
+            if($action->user==null)
+            $action->user=\Auth::user()->name;
         });
         self::created(function ($action){
-            switch($action->name){
+            switch($action->action){
                 case \userActions::Add->name:
                     message()->store();
                     break;
@@ -41,52 +40,5 @@ class Action extends Model
         parent::boot();
     }
 
-#Relations
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
-    public function comment()
-    {
-        return $this->belongsTo(Comment::class);
-    }
-
-    public function category()
-    {
-        return $this->belongsTo(Category::class);
-    }
-    public function post()
-    {
-        return $this->belongsTo(Post::class);
-    }
-    public function tag()
-    {
-        return $this->belongsTo(Tag::class);
-    }
-#endRelations
-    public function actionFather()
-    {
-        $name='کاربر';
-        $father=$this->user;
-        $process=$this->process;
-        if(isset($this->comment_id)){
-            $name='نظر';
-            $father=$this->comment;
-        }
-        elseif (isset($this->category_id)){
-            $name='دسته‌بندی';
-            $father=$this->category;
-        }elseif (isset($this->post_id)){
-            $name='پست';
-            $father=$this->post;
-        }elseif (isset($this->tag_id)){
-            $name='برچسب';
-            $father=$this->tag;
-        }
-        return[
-            'name'=>$name,
-            'father'=>$father
-        ];
-    }
 }
 

@@ -13,13 +13,10 @@ return new class extends Migration
     {
         Schema::create('actions', function (Blueprint $table) {
             $table->id();
-            $table->enum('name',['Add','Edit','Delete','Login']);
-            $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('cascade');
-            $table->foreignId('comment_id')->nullable()->constrained('comments')->onDelete('cascade');
-            $table->foreignId('category_id')->nullable()->constrained('categories')->onDelete('cascade');
-            $table->foreignId('post_id')->nullable()->constrained('posts')->onDelete('cascade');
-            $table->foreignId('tag_id')->nullable()->constrained('tags')->onDelete('cascade');
-
+            $table->string('user');
+            $table->string('model');
+            $table->string('model_name');
+            $table->string('action');
             $table->timestamps();
         });
     }
