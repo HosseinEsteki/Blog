@@ -17,7 +17,7 @@ trait HasCommentValidation
     {
         $rules=[
             'post_id'=>'required|exists:posts,id',
-            'creator_id'=>'required|exists:users,id',
+            'creator_id'=>'nullable|exists:users,id',
             'title'=>'required',
             'message'=>'required',
         ];

@@ -9,7 +9,7 @@ use function App\slug;
 
 trait HasCategoryValidation
 {
-    private array $inputs=['name','slug'];
+    private array $inputs=['name','slug','creator_id'];
     /**
      * check rules for category and make validation.
      * @param Request $request
@@ -24,7 +24,8 @@ trait HasCategoryValidation
         $inputs['slug']=slug($inputs['slug']);
         $rules=[
             'name'=>'required|unique:categories',
-            'slug'=>'nullable|unique:categories'
+            'slug'=>'nullable|unique:categories',
+            'creator_id'=>'nullable|exists:users,id'
         ];
         $validator = \Validator::make($inputs, $rules);
         return compact('inputs','validator');

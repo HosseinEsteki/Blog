@@ -33,7 +33,7 @@ trait HasRoleValidation
     {
         $rules=[
             'name'=>['required',Rule::unique('roles')->whereNot('name',$id)],
-            'creator_id'=>'required|exists:users,id',
+            'creator_id'=>'nullable|exists:users,id',
         ];
         return $this->makeAndSend($request,$rules,$this->inputFields);
     }
