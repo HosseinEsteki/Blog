@@ -7,16 +7,11 @@ use App\Http\Resources\Collections\CategoryCollection;
 use App\Http\Resources\Singles\CategoryResource;
 use App\Http\Traits\HasApi;
 use App\Models\Category;
-use App\Models\Role;
-use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
-use function App\slug;
 
 class CategoryController extends Controller
 {
-    use HasApi;
-
+    use HasApi,\App\Http\Traits\Validations\HasCategoryValidation;
     /**
      * Display a listing of the resource.
      */
@@ -32,21 +27,14 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $req=$request->only(['name','slug']);
-        if($request->slug==null)
-            $req['slug']=$req['name'];
-        $req['slug']=slug($req['slug']);
-        $rules=[
-            'name'=>'required|unique:categories',
-            'slug'=>'nullable|unique:categories'
-        ];
         $this->authorize(\userPermission::CreateCategory->name);
-        $validator = \Validator::make($req, $rules);
+        $storeValidation=$this->storeValidation($request);
+        $validator=$storeValidation['validator'];
         if ($validator->fails()) {
             return $this->errorResponse($validator);
         }
         $validator->validate();
-        $category= Category::create($req);
+        $category= Category::create($storeValidation['inputs']);
         $data= new CategoryResource($category);
         return $this->storeResponse($data);
     }
@@ -67,19 +55,14 @@ class CategoryController extends Controller
     public function update(Request $request, Category $category)
     {
         $this->authorize(\userPermission::EditCategory->name);
-        $req=$request->only(['name','slug']);
-        $req['slug']=slug($req['slug']);
-        $rule= Rule::unique('categories')->whereNot('id',$category->id);
-        $rules=[
-            'name'=>['required',$rule],
-            'slug'=>['required',$rule]
-        ];
-        $validator = \Validator::make($req, $rules);
+        $updateValidation=$this->updateValidation($request,$category->id);
+        $inputs=$updateValidation['inputs'];
+        $validator=$updateValidation['validator'];
         if ($validator->fails()) {
             return $this->errorResponse($validator);
         }
         $validator->validate();
-        $category->update($req);
+        $category->update($inputs);
         $data= new CategoryResource($category);
         return $this->updateResponse($data);
     }

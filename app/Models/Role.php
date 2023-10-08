@@ -11,10 +11,8 @@ class Role extends Model
 
     use HasFactory;
     protected $fillable=[
-        'name'
-    ];
-    protected $attributes=[
-        'creator_id'=>2,
+        'name',
+        'creator_id'
     ];
     protected static function boot()
     {

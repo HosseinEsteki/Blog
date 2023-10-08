@@ -10,7 +10,8 @@ class Permission extends Model
 {
     use HasFactory;
     protected $fillable=[
-        'name'
+        'name',
+        'creator_id'
     ];
 
     protected static function boot()

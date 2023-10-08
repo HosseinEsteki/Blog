@@ -3,28 +3,26 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Collections\CategoryCollection;
+use App\Http\Resources\Collections\CommentCollection;
 use App\Http\Resources\Singles\CategoryResource;
 use App\Http\Resources\Singles\CommentResource;
 use App\Http\Traits\HasApi;
-use App\Models\Category;
+use App\Http\Traits\Validations\HasCommentValidation;
 use App\Models\Comment;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
 {
-    use HasApi;
-    protected $rules=[
-        'post_id'=>'required|exist:posts,id',
-        'message'=>'required'
-    ];
+    // TODO: After that complete The PostController, check this function to work correct
+    use HasApi,HasCommentValidation;
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         $this->authorize(\userPermission::IndexComment->name);
-        $data= new CategoryCollection(Category::all());
+        $data= new CommentCollection(Comment::all());
         return $this->indexResponse($data);
     }
 
@@ -34,14 +32,16 @@ class CommentController extends Controller
     public function store(Request $request)
     {
         $this->authorize(\userPermission::CreateComment->name);
-        $validator = \Validator::make($request->all(), $this->rules);
+        $storeValidation=$this->storeValidation($request);
+        $validator=$storeValidation['validator'];
+        $inputs=$storeValidation['inputs'];
         if ($validator->fails()) {
             return $this->errorResponse($validator);
         }
         $validator->validate();
-        $comment= Comment::create($request->only(['post_id','message']));
+        $comment= Comment::create($inputs);
         $data= new CommentResource($comment);
-        return $this->indexResponse($data);
+        return $this->storeResponse($data);
     }
 
     /**
@@ -50,8 +50,8 @@ class CommentController extends Controller
     public function show(Comment $comment)
     {
         $this->authorize(\userPermission::ShowComment->name);
-        return new CategoryResource($comment);
-        return $this->indexResponse($data);
+        $data= new CategoryResource($comment);
+        return $this->showResponse($data);
     }
 
     /**
@@ -60,15 +60,17 @@ class CommentController extends Controller
     public function update(Request $request, Comment $comment)
     {
         $this->authorize(\userPermission::EditComment->name);
-        $validator = \Validator::make($request->all(), $this->rules);
+        $updateValidation=$this->updateValidation($request);
+        $validator=$updateValidation['validator'];
+        $inputs=$updateValidation['inputs'];
         if ($validator->fails()) {
             return $this->errorResponse($validator);
         }
         $validator->validate();
 
-        $comment->update($request->only(['post_id','message']));
-        return new CommentResource($comment);
-        return $this->indexResponse($data);
+        $comment->update($inputs);
+        $data= new CommentResource($comment);
+        return $this->updateResponse($data);
     }
 
     /**
@@ -78,7 +80,6 @@ class CommentController extends Controller
     {
         $this->authorize(\userPermission::DestroyComment->name);
         $comment->delete();
-        return response()->noContent();
-        return $this->indexResponse($data);
+        return $this->destroyResponse();
     }
 }

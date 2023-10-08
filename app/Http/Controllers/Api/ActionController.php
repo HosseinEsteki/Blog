@@ -19,6 +19,7 @@ class ActionController extends Controller
     public function index()
     {
         $this->authorize(\userPermission::IndexAction->name);
+
         $data= new ActionCollection(Action::all());
         return $this->indexResponse($data);
     }

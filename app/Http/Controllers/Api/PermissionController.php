@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Collections\CategoryCollection;
+use App\Http\Resources\Collections\PermissionCollection;
 use App\Http\Traits\HasApi;
+use App\Models\Category;
 use App\Models\Permission;
 use Illuminate\Http\Request;
 
@@ -15,38 +18,8 @@ class PermissionController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Permission $permission)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Permission $permission)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Permission $permission)
-    {
-        //
+        $this->authorize(\userPermission::IndexPermission->name);
+        $data= new PermissionCollection(Permission::all());
+        return $this->indexResponse($data);
     }
 }

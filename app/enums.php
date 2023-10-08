@@ -21,6 +21,8 @@ enum userPermission: string
     case DestroyRole = "حذف سطح دسترسی";
     case ShowRole = "نمایش سطح دسترسی";
     case IndexRole = 'فهرست سطوح دسترسی';
+    case IndexPermission='فهرست نقش‌ها';
+    case StoreRolePermission = "ذخیره نقش‌های سطح دسترسی";
     case CreateCategory = "ایجاد دسته‌بندی";
     case EditCategory = "ویرایش دسته‌بندی";
     case DestroyCategory = "حذف دسته‌بندی";
