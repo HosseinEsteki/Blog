@@ -24,7 +24,7 @@ class RolePermissionController extends Controller
      */
     public function update(Request $request, Role $role): \Illuminate\Foundation\Application|\Illuminate\Http\Response|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory
     {
-        $this->authorize(\userPermission::StoreRolePermission->name);
+//        $this->authorize(\userPermission::StoreRolePermission->name);
         $updateValidation = $this->updateValidation($request);
         $inputs = $updateValidation['inputs'];
         $validator = $updateValidation['validator'];

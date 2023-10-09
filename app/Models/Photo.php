@@ -5,20 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Post extends Model
+class Photo extends Model
 {
     use HasFactory;
-
     protected $fillable=[
-        'image',
-        'title',
-        'slug',
-        'short-description',
-        'description',
-        'published',
-        'category_id',
+        'alt',
+        'name',
         'creator_id'
     ];
+
     protected static function boot()
     {
         self::creating(function ($item) {
@@ -36,19 +31,9 @@ class Post extends Model
         });
         parent::boot();
     }
-    public function creator()
-    {
-        return $this->belongsTo(User::class);
-    }
-    public function categories(){
-        return $this->belongsTo(Category::class);
-    }
-    public function tags(){
-        return $this->belongsToMany(Tag::class);
-    }
 
-    public function photos()
+    public function posts()
     {
-        return $this->belongsToMany(Photo::class);
+        return $this->belongsToMany(Post::class);
     }
 }

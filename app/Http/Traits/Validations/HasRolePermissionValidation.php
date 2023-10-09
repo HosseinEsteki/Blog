@@ -19,6 +19,7 @@ trait HasRolePermissionValidation
     {
         $rules = [
             'permissions' => 'nullable|array',
+            'permissions.*'=>'nullable|exists:permissions,id'
         ];
         $validator = \Validator::make($request->all(), $rules);
         if (isset($request->permissions))
