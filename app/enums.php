@@ -1,6 +1,6 @@
 <?php
 
-enum userActions: string
+enum UserActions: string
 {
     case Add = "افزودن";
     case Edit = "ویرایش";
@@ -14,34 +14,39 @@ enum userActions: string
  * @return string
  */
 
-enum userPermission: string
+enum UserPermission: string
 {
-    case CreateRole = "ایجاد سطح دسترسی";
-    case EditRole = "ویرایش سطح دسترسی";
+    case StoreRole = "افزودن سطح دسترسی";
+    case UpdateRole = "ویرایش سطح دسترسی";
     case DestroyRole = "حذف سطح دسترسی";
     case ShowRole = "نمایش سطح دسترسی";
     case IndexRole = 'فهرست سطوح دسترسی';
     case IndexPermission='فهرست نقش‌ها';
     case StoreRolePermission = "ذخیره نقش‌های سطح دسترسی";
-    case CreateCategory = "ایجاد دسته‌بندی";
-    case EditCategory = "ویرایش دسته‌بندی";
+    case StoreCategory = "افزودن دسته‌بندی";
+    case UpdateCategory = "ویرایش دسته‌بندی";
     case DestroyCategory = "حذف دسته‌بندی";
     case ShowCategory = "نمایش دسته‌بندی";
     case IndexCategory = "فهرست دسته‌بندی‌ها";
-    case CreateComment = "ایجاد کامنت";
-    case EditComment = "ویرایش کامنت";
+    case StoreComment = "افزودن کامنت";
+    case UpdateComment = "ویرایش کامنت";
     case DestroyComment = "حذف کامنت";
     case ShowComment = "نمایش کامنت";
     case IndexComment = "فهرست کامنت‌ها";
-    case CreateTag = "ایجاد برچسب";
-    case EditTag = "ویرایش برچسب";
+    case StoreTag = "افزودن برچسب";
+    case UpdateTag = "ویرایش برچسب";
     case DestroyTag = "حذف برچسب";
     case ShowTag = "نمایش برچسب";
     case IndexTag = "فهرست برچسب‌ها";
     case IndexAction = "فهرست فعالیت‌ها";
+    case StorePhoto="افزودن تصویر";
+    case UpdatePhoto='ویرایش تصویر';
+    case ShowPhoto='نمایش تصویر';
+    case DestroyPhoto='حذف تصویر';
+    case IndexPhoto='فهرست تصاویر';
 }
 
-enum userRole: string
+enum UserRole: string
 {
     case Admin = "ادمین";
     case Golden = "کاربر طلایی";
@@ -49,7 +54,7 @@ enum userRole: string
     case Bronze = "کاربر برنزی";
 }
 
-enum models: string
+enum Models: string
 {
     case Action = 'فعالیت';
     case Category = 'دسته‌بندی';
@@ -59,4 +64,10 @@ enum models: string
     case Role = 'سطح دسترسی';
     case Tag = 'برچسب';
     case User = 'کاربر';
+    case Photo = 'تصویر';
+}
+enum PhotoModel:string{
+    case User="/images/users/";
+    case Post="/images/posts/";
+    case Category="/images/categories";
 }

@@ -21,13 +21,13 @@ class Role extends Model
                 $item->creator_id = \Auth::id();
         });
         self::created(function ($role) {
-            Action::create(['user'=>$role->creator->email,'model'=>\models::Role->name,'model_name' => $role->name, 'action' => \userActions::Add->name]);
+            Action::create(['user'=>$role->creator->email,'model'=>\Models::Role->name,'model_name' => $role->name, 'action' => \UserActions::Add->name]);
         });
         self::updated(function ($role) {
-            Action::create(['user'=>$role->creator->email,'model'=>\models::Role->name,'model_name' => $role->name, 'action' => \userActions::Edit->name]);
+            Action::create(['user'=>$role->creator->email,'model'=>\Models::Role->name,'model_name' => $role->name, 'action' => \UserActions::Edit->name]);
         });
         self::deleting(function ($role) {
-            Action::create(['user'=>$role->creator->email,'model'=>\models::Role->name,'model_name' => $role->name, 'action' => \userActions::Delete->name]);
+            Action::create(['user'=>$role->creator->email,'model'=>\Models::Role->name,'model_name' => $role->name, 'action' => \UserActions::Delete->name]);
         });
         parent::boot();
     }

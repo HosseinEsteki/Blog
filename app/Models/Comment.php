@@ -26,13 +26,13 @@ class Comment extends Model
                 $item->creator_id = \Auth::id();
         });
         self::created(function ($comment) {
-            Action::create(['user'=>$comment->creator->email,'model'=>\models::Comment->name,'model_name' => $comment->creator->email, 'action' => \userActions::Add->name]);
+            Action::create(['user'=>$comment->creator->email,'model'=>\Models::Comment->name,'model_name' => $comment->creator->email, 'action' => \UserActions::Add->name]);
         });
         self::updated(function ($comment) {
-            Action::create(['user'=>$comment->creator->email,'model'=>\models::Comment->name,'model_name' => $comment->creator->email, 'action' => \userActions::Edit->name]);
+            Action::create(['user'=>$comment->creator->email,'model'=>\Models::Comment->name,'model_name' => $comment->creator->email, 'action' => \UserActions::Edit->name]);
         });
         self::deleting(function ($comment) {
-            Action::create(['user'=>$comment->creator->email,'model'=>\models::Comment->name,'model_name' => $comment->creator->email, 'action' => \userActions::Delete->name]);
+            Action::create(['user'=>$comment->creator->email,'model'=>\Models::Comment->name,'model_name' => $comment->creator->email, 'action' => \UserActions::Delete->name]);
         });
         parent::boot();
     }

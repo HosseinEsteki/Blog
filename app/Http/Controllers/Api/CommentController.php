@@ -21,7 +21,7 @@ class CommentController extends Controller
      */
     public function index()
     {
-        $this->authorize(\userPermission::IndexComment->name);
+        $this->authorize(\UserPermission::IndexComment->name);
         $data= new CommentCollection(Comment::all());
         return $this->indexResponse($data);
     }
@@ -31,7 +31,7 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
-        $this->authorize(\userPermission::CreateComment->name);
+        $this->authorize(\UserPermission::StoreComment->name);
         $storeValidation=$this->storeValidation($request);
         $validator=$storeValidation['validator'];
         $inputs=$storeValidation['inputs'];
@@ -49,7 +49,7 @@ class CommentController extends Controller
      */
     public function show(Comment $comment)
     {
-        $this->authorize(\userPermission::ShowComment->name);
+        $this->authorize(\UserPermission::ShowComment->name);
         $data= new CategoryResource($comment);
         return $this->showResponse($data);
     }
@@ -59,7 +59,7 @@ class CommentController extends Controller
      */
     public function update(Request $request, Comment $comment)
     {
-        $this->authorize(\userPermission::EditComment->name);
+        $this->authorize(\UserPermission::UpdateComment->name);
         $updateValidation=$this->updateValidation($request);
         $validator=$updateValidation['validator'];
         $inputs=$updateValidation['inputs'];
@@ -78,7 +78,7 @@ class CommentController extends Controller
      */
     public function destroy(Comment $comment)
     {
-        $this->authorize(\userPermission::DestroyComment->name);
+        $this->authorize(\UserPermission::DestroyComment->name);
         $comment->delete();
         return $this->destroyResponse();
     }

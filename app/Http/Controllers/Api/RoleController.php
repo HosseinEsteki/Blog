@@ -19,7 +19,7 @@ class RoleController extends Controller
      */
     public function index()
     {
-        $this->authorize(\userPermission::IndexRole->name);
+        $this->authorize(\UserPermission::IndexRole->name);
         $data = new RoleCollection(Role::all());
         return $this->indexResponse($data);
     }
@@ -29,7 +29,7 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        $this->authorize(\userPermission::CreateRole->name);
+        $this->authorize(\UserPermission::StoreRole->name);
         $storeValidation = $this->storeValidation($request);
         $validator = $storeValidation['validator'];
         if ($validator->fails()) {
@@ -46,7 +46,7 @@ class RoleController extends Controller
      */
     public function show(Role $role)
     {
-        $this->authorize(\userPermission::ShowRole->name);
+        $this->authorize(\UserPermission::ShowRole->name);
         $data = new RoleResource(Role::with('permissions')->find($role->id));
         return $this->showResponse($data);
     }
@@ -56,7 +56,7 @@ class RoleController extends Controller
      */
     public function update(Request $request, Role $role)
     {
-        $this->authorize(\userPermission::EditRole->name);
+        $this->authorize(\UserPermission::UpdateRole->name);
         $updateValidation = $this->updateValidation($request,$role->id);
         $inputs = $updateValidation['inputs'];
         $validator = $updateValidation['validator'];
@@ -74,7 +74,7 @@ class RoleController extends Controller
      */
     public function destroy(Role $role)
     {
-        $this->authorize(\userPermission::DestroyRole->name);
+        $this->authorize(\UserPermission::DestroyRole->name);
         $role->delete();
         return $this->destroyResponse();
     }

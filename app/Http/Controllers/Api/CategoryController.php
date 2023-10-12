@@ -6,18 +6,19 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Collections\CategoryCollection;
 use App\Http\Resources\Singles\CategoryResource;
 use App\Http\Traits\HasApi;
+use App\Http\Traits\Validations\HasCategoryValidation;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    use HasApi,\App\Http\Traits\Validations\HasCategoryValidation;
+    use HasApi, HasCategoryValidation;
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $this->authorize(\userPermission::IndexCategory->name);
+        $this->authorize(\UserPermission::IndexCategory->name);
         $data= new CategoryCollection(Category::all());
         return $this->indexResponse($data);
     }
@@ -27,14 +28,16 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $this->authorize(\userPermission::CreateCategory->name);
+        $this->authorize(\UserPermission::StoreCategory->name);
         $storeValidation=$this->storeValidation($request);
         $validator=$storeValidation['validator'];
         if ($validator->fails()) {
             return $this->errorResponse($validator);
         }
         $validator->validate();
-        $category= Category::create($storeValidation['inputs']);
+
+        $photo=$request->file('photo');
+        $category= Category::store($photo,$request->alt,$storeValidation['inputs']);
         $data= new CategoryResource($category);
         return $this->storeResponse($data);
     }
@@ -44,7 +47,7 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        $this->authorize(\userPermission::ShowCategory->name);
+        $this->authorize(\UserPermission::ShowCategory->name);
         $data= new CategoryResource($category);
         return $this->showResponse($data);
     }
@@ -54,7 +57,7 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        $this->authorize(\userPermission::EditCategory->name);
+        $this->authorize(\UserPermission::UpdateCategory->name);
         $updateValidation=$this->updateValidation($request,$category->id);
         $inputs=$updateValidation['inputs'];
         $validator=$updateValidation['validator'];
@@ -72,7 +75,7 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        $this->authorize(\userPermission::DestroyCategory->name);
+        $this->authorize(\UserPermission::DestroyCategory->name);
         $category->delete();
         return $this->destroyResponse();
     }

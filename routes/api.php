@@ -26,7 +26,7 @@ Route::middleware('auth:sanctum')->group(function (){
     Route::apiResource('comments',\App\Http\Controllers\Api\CommentController::class);
     Route::apiResource('posts',\App\Http\Controllers\Api\PostController::class);
     Route::apiResource('tags',\App\Http\Controllers\Api\TagController::class);
-    Route::resource('roles',\App\Http\Controllers\Api\RoleController::class);
+    Route::apiResource('roles',\App\Http\Controllers\Api\RoleController::class);
     Route::get('actions',[\App\Http\Controllers\Api\ActionController::class,'index']);
     Route::get('permissions',[\App\Http\Controllers\Api\PermissionController::class,'index']);
     Route::put('role-permissions/{role}',[\App\Http\Controllers\Api\RolePermissionController::class,'update']);

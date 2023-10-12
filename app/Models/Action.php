@@ -23,16 +23,16 @@ class Action extends Model
         });
         self::created(function ($action){
             switch($action->action){
-                case \userActions::Add->name:
+                case \UserActions::Add->name:
                     message()->store();
                     break;
-                case \userActions::Edit->name:
+                case \UserActions::Edit->name:
                     message()->update();
                     break;
-                case \userActions::Delete->name:
+                case \UserActions::Delete->name:
                     message()->delete();
                     break;
-                case \userActions::Login->name:
+                case \UserActions::Login->name:
                     message()->login();
                     break;
             }

@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('photos', function (Blueprint $table) {
             $table->id();
             $table->string('alt')->nullable();
-            $table->string('name');
-            $table->foreignId('creator_id')->constrained('users');
+            $table->string('path')->nullable();
+            $table->string('model');
             $table->timestamps();
         });
     }

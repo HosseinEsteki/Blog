@@ -25,7 +25,8 @@ trait HasCategoryValidation
         $rules=[
             'name'=>'required|unique:categories',
             'slug'=>'nullable|unique:categories',
-            'creator_id'=>'nullable|exists:users,id'
+            'creator_id'=>'nullable|exists:users,id',
+            'alt'=>'required|string'
         ];
         $validator = \Validator::make($inputs, $rules);
         return compact('inputs','validator');
@@ -40,14 +41,15 @@ trait HasCategoryValidation
      */
     public function updateValidation(Request $request, int $categoryId): array
     {
-        $this->authorize(\userPermission::EditCategory->name);
+        $this->authorize(\UserPermission::UpdateCategory->name);
         $inputs=$request->only($this->inputs);
         if (isset($inputs['slug']))
             $inputs['slug']=slug($inputs['slug']);
         $rule= Rule::unique('categories')->whereNot('id',$categoryId);
         $rules=[
             'name'=>['required',$rule],
-            'slug'=>['required',$rule]
+            'slug'=>['required',$rule],
+            'alt'=>'required|string'
         ];
         $validator = \Validator::make($inputs, $rules);
         return compact('inputs','validator');

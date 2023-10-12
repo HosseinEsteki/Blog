@@ -14,7 +14,7 @@ class RolePermissionTableSeeder extends Seeder
      */
     public function run(): void
     {
-        $role=Role::whereName(\userRole::Admin->name)->first();
+        $role=Role::whereName(\UserRole::Admin->name)->first();
         $permissions=Permission::all()->pluck('id');
         $role->permissions()->attach($permissions);
     }

@@ -24,7 +24,7 @@ class TagController extends Controller
      */
     public function index()
     {
-        $this->authorize(\userPermission::IndexTag->name);
+        $this->authorize(\UserPermission::IndexTag->name);
         $data= new TagCollection(Tag::all());
         return $this->indexResponse($data);
     }
@@ -36,7 +36,7 @@ class TagController extends Controller
      */
     public function store(Request $request)
     {
-        $this->authorize(\userPermission::CreateTag->name);
+        $this->authorize(\UserPermission::StoreTag->name);
         $storeValidation=$this->storeValidation($request);
         $validator=$storeValidation['validator'];
         $inputs=$storeValidation['inputs'];
@@ -54,7 +54,7 @@ class TagController extends Controller
      */
     public function show(Tag $tag)
     {
-        $this->authorize(\userPermission::ShowTag->name);
+        $this->authorize(\UserPermission::ShowTag->name);
         $data= new CategoryResource($tag);
         return $this->showResponse($data);
 
@@ -66,7 +66,7 @@ class TagController extends Controller
      */
     public function update(Request $request, Tag $tag): \Illuminate\Foundation\Application|\Illuminate\Http\Response|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory
     {
-        $this->authorize(\userPermission::EditTag->name);
+        $this->authorize(\UserPermission::UpdateTag->name);
         $storeValidation=$this->storeValidation($request);
         $validator=$storeValidation['validator'];
         $inputs=$storeValidation['inputs'];
@@ -85,7 +85,7 @@ class TagController extends Controller
      */
     public function destroy(Tag $tag): \Illuminate\Http\Response
     {
-        $this->authorize(\userPermission::DestroyTag->name);
+        $this->authorize(\UserPermission::DestroyTag->name);
         $tag->delete();
         return $this->destroyResponse();
     }

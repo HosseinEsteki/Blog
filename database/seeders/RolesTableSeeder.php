@@ -13,7 +13,7 @@ class RolesTableSeeder extends Seeder
      */
     public function run(): void
     {
-        $roles = \userRole::cases();
+        $roles = \UserRole::cases();
         foreach ($roles as $role)
             Role::insert(['name'=>$role->name,'creator_id'=>1]);
     }

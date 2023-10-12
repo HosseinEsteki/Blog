@@ -13,7 +13,7 @@ class PermissionsTableSeeder extends Seeder
      */
     public function run(): void
     {
-        $permissions=\userPermission::cases();
+        $permissions=\UserPermission::cases();
         foreach ($permissions as $permission)
         {
             Permission::insert(['name'=> $permission->name,'creator_id'=>1]);

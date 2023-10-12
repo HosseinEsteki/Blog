@@ -18,7 +18,7 @@ class PermissionController extends Controller
      */
     public function index()
     {
-        $this->authorize(\userPermission::IndexPermission->name);
+        $this->authorize(\UserPermission::IndexPermission->name);
         $data= new PermissionCollection(Permission::all());
         return $this->indexResponse($data);
     }

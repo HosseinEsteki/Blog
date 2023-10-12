@@ -23,13 +23,13 @@ class Tag extends Model
                 $item->creator_id = \Auth::id();
         });
         self::created(function ($tag) {
-            Action::create(['user'=>$tag->creator->email,'model'=>\models::Tag->name,'model_name' => $tag->name, 'action' => \userActions::Add->name]);
+            Action::create(['user'=>$tag->creator->email,'model'=>\Models::Tag->name,'model_name' => $tag->name, 'action' => \UserActions::Add->name]);
         });
         self::updated(function ($tag) {
-            Action::create(['user'=>$tag->creator->email,'model'=>\models::Tag->name,'model_name' => $tag->name, 'action' => \userActions::Edit->name]);
+            Action::create(['user'=>$tag->creator->email,'model'=>\Models::Tag->name,'model_name' => $tag->name, 'action' => \UserActions::Edit->name]);
         });
         self::deleting(function ($tag) {
-            Action::create(['user'=>$tag->creator->email,'model'=>\models::Tag->name,'model_name' => $tag->name, 'action' => \userActions::Delete->name]);
+            Action::create(['user'=>$tag->creator->email,'model'=>\Models::Tag->name,'model_name' => $tag->name, 'action' => \UserActions::Delete->name]);
         });
         parent::boot();
     }
