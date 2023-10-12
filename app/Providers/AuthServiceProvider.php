@@ -25,17 +25,17 @@ class AuthServiceProvider extends ServiceProvider
     public function boot(): void
     {
 
-        $permissions = Permission::all();
-        foreach ($permissions as $permission) {
-            Gate::define($permission->name,function (User $user) use ($permission){
-                foreach ($permission->roles as $role){
-                    if($role->users->find($user->id)!=null){
-                        return true;
-                    }
-                }
-                return false;
-            });
-        }
+//        $permissions = Permission::all();
+//        foreach ($permissions as $permission) {
+//            Gate::define($permission->name,function (User $user) use ($permission){
+//                foreach ($permission->roles as $role){
+//                    if($role->users->find($user->id)!=null){
+//                        return true;
+//                    }
+//                }
+//                return false;
+//            });
+//        }
 
     }
 }
